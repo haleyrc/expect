@@ -2,15 +2,22 @@ package expect
 
 import (
 	"net/http"
+	"reflect"
 	"testing"
 	"time"
 )
 
-func ToBeNil(t *testing.T, label string, obj interface{}) {
-	if obj != nil {
-		t.Errorf("expected %s to be nil, got %s", label, obj)
+func ObjectsToBeEqual(t *testing.T, want, got interface{}) {
+	if !reflect.DeepEqual(want, got) {
+		t.Errorf("expected objects to be equal, but weren't\nwanted: %+v\ngot   : %+v", want, got)
 	}
 }
+
+// func ToBeNil(t *testing.T, label string, obj interface{}) {
+// 	if obj != nil {
+// 		t.Errorf("expected %s to be nil, got %s", label, obj)
+// 	}
+// }
 
 func ToBeNotNil(t *testing.T, label string, obj interface{}) {
 	if obj == nil {
@@ -80,6 +87,18 @@ func ErrorToBeNotNil(t *testing.T, err error) {
 }
 
 func IntToEqual(t *testing.T, label string, want, got int) {
+	if want != got {
+		t.Errorf("expected %s to be %d, but got %d", label, want, got)
+	}
+}
+
+func Int64ToEqual(t *testing.T, label string, want, got int64) {
+	if want != got {
+		t.Errorf("expected %s to be %d, but got %d", label, want, got)
+	}
+}
+
+func UInt8ToEqual(t *testing.T, label string, want, got uint8) {
 	if want != got {
 		t.Errorf("expected %s to be %d, but got %d", label, want, got)
 	}
